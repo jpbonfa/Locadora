@@ -1,10 +1,14 @@
-package View;
+package view;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -13,8 +17,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import util.Util;
+import util.Valida;
 
-public class CadastraLocacaoView {
+public class CadastrarLocacaoView {
 	private JFrame janela;
 	private JPanel painelDaJanela;
 	private JLabel lbNomeVendedor;
@@ -39,9 +44,8 @@ public class CadastraLocacaoView {
 	private JScrollPane scroll;
 	private String vendedor[] = { " - selecione um Vendedor - " };
 	private String filme[] = { " - selecione um Filme - " };
-	private String colunas[] = { "Codigo", "Nome", "Valor", "Disponivel",
-			"Promoção", "Valor Promocional" };
-	private String dados[][] = { {"01","MIB","15,00","SIM","5,00","10,00"},{ }};
+	private String colunas[] = { "Codigo", "Nome", "Valor", "Disponivel", "Promoção", "Valor Promocional" };
+	private String dados[][] = { { "01", "MIB", "15,00", "SIM", "5,00", "10,00" }, {} };
 
 	public void iniciaGui() {
 
@@ -84,10 +88,6 @@ public class CadastraLocacaoView {
 		lbNomeFilme.setBounds(20, 70, 120, 30);
 		cbFilme.setBounds(160, 70, 300, 30);
 
-		// configuraçoes dos componetes dos Botões
-		btIncluir.setText("INCLUIR");
-		btIncluir.setBounds(470, 70, 100, 30);
-
 		// configuraçoes das coordenadas dos componetes da forma de pagamento
 		lbFormaDePagamento.setBounds(20, 200, 150, 30);
 		rbDinheiro.setText("Dinheiro");
@@ -112,6 +112,13 @@ public class CadastraLocacaoView {
 		btCancelar.setText("Cancelar");
 		btSalvar.setBounds(150, 300, 130, 25);
 		btCancelar.setBounds(290, 300, 130, 25);
+		btCancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				janela.setVisible(false);
+			}
+		});
 		btIncluir.setText("INCLUIR");
 		btIncluir.setBounds(470, 70, 100, 25);
 
@@ -148,7 +155,7 @@ public class CadastraLocacaoView {
 		painelDaJanela.add(scroll);
 
 		// Configurações da janela
-		// janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		janela.setTitle("LOCAÇÃO DE FILME");
 		janela.setSize(600, 370);
 		janela.setResizable(false);
@@ -157,8 +164,21 @@ public class CadastraLocacaoView {
 
 	}
 
-	public static void main(String[] args) {
-		new Util().mudarAparencia();
-		new CadastraLocacaoView().iniciaGui();
+	public boolean validarDados() {
+
+		if (tfPago.equals("")) {
+			JOptionPane.showMessageDialog(null, "Inforome Valor valido, campo obrigatorio", "Erro", 0);
+			return false;
+		}
+		if (tfTotal.equals("")) {
+			JOptionPane.showMessageDialog(null, "Inforome Valor valido, campo obrigatorio", "Erro", 0);
+			return false;
+		}
+		if (tfTroco.equals("")) {
+			JOptionPane.showMessageDialog(null, "Inforome Valor valido, campo obrigatorio", "Erro", 0);
+			return false;
+
+		}
+		return false;
 	}
-}
+} 

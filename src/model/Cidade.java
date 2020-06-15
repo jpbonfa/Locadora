@@ -1,14 +1,13 @@
 package model;
 
 public class Cidade {
-	
+
 	private String nome;
-	
+
 	public Cidade() {
-		}
+	}
 
 	public Cidade(String nome) {
-	
 		this.nome = nome;
 	}
 
@@ -19,5 +18,5 @@ public class Cidade {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	 
+
 }

@@ -5,6 +5,8 @@ import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
+
 public class Valida {// inicio da classe
 
 	public static boolean verificaStringVazio(String args) {// inicio metodo
@@ -12,25 +14,37 @@ public class Valida {// inicio da classe
 			return true;
 		} else {
 			return false;
-		}// fim do if
+		} // fim do if
 
 	}// fim do metodo
 
-	public static boolean verificaIntZero(int args) {// inicio do metodo
-		if (args == 0) {// if
-			return true;
-		} else {
-			return false;
+	public static boolean verificaIntZero(String string) {// inicio do metodo
+		try {
+			int args = Integer.parseInt(string);
 
-		}// fim do if
+			if (args == 0) {// if
+				return true;
+			} // fim do if
+
+		} catch (Exception e) {
+			return true;
+		}
+		return false;
+
 	}// inicio do metodo
 
-	public static boolean verificaDoubleZero(double args) {// inicio metodo
-		if (args == 0) {// inicio do if
+	public static boolean verificaDoubleZero(String string) {// inicio metodo
+		try {
+			double args = Double.parseDouble(string);
+			if (args == 0) {// inicio do if
+				return true;
+			} // fim do if
+
+		} catch (Exception e) {
 			return true;
-		} else {
-			return false;
-		}// fim do if
+		}
+		return false;
+
 	}// fim metodo
 
 	public static boolean verificaNumeros(String string) {
@@ -41,7 +55,7 @@ public class Valida {// inicio da classe
 			return true;
 		} else {
 			return false;
-		}// fim do if
+		} // fim do if
 
 	}// fim do metodo
 
@@ -50,7 +64,7 @@ public class Valida {// inicio da classe
 			return true;
 		} else {
 			return false;
-		}// fim do if
+		} // fim do if
 	}// fim do metodo
 
 	public static boolean verificaRgVazio(String rg) {// inicio do metodo
@@ -58,7 +72,7 @@ public class Valida {// inicio da classe
 			return true;
 		} else {
 			return false;
-		}// fim do if
+		} // fim do if
 
 	}// fim do metodo
 
@@ -95,20 +109,20 @@ public class Valida {// inicio da classe
 			return true;
 		} else {
 			return false;
-		}// fim do if
+		} // fim do if
 
 	}// fim do metodo]
 
 	public static String validaData(int[] args) {
 		String retorno = "";
 		if (!verificaDia(args[0])) {
-			retorno += Mensagem.diaInvalido;
+			retorno += "dia inválido";
 		}
 		if (!verificaMes(args[1])) {
-			retorno += Mensagem.mesInvalido;
+			retorno += "mês inválido";
 		}
 		if (verificaAno(args[2])) {
-			retorno += Mensagem.anoInvalido;
+			retorno += "ano inválido";
 		}
 		return retorno;
 	}

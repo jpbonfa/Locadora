@@ -1,14 +1,14 @@
 package model;
 
 public class Estado {
+
 	private String nome;
 	private String uf;
-	
+
 	public Estado() {
 	}
 
 	public Estado(String nome, String uf) {
-		super();
 		this.nome = nome;
 		this.uf = uf;
 	}
@@ -28,5 +28,5 @@ public class Estado {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-	
+
 }

@@ -1,14 +1,17 @@
-package View;
+package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
-import util.Util;
 
 /**
  * Classe responsavel por armazenar os componentes da tela de cadastro da
@@ -17,17 +20,16 @@ import util.Util;
  * @author JPJBonfa
  * @since 08/06/2020
  */
-public class CadastraFilmesView {
+public class CadastrarFilmeView {
+
 	private JFrame janela;
 	private JPanel painelDaJanela;
-	private JLabel lbCodigo;
 	private JLabel lbNome;
 	private JLabel lbValor;
 	private JLabel lbDisponivel;
 	private JLabel lbPromocao;
 	private JLabel lbValorDaPromocao;
 	private JLabel lbGenero;
-	private JTextField tfCodigo;
 	private JTextField tfNome;
 	private JTextField tfValor;
 	private JTextField tfPromocao;
@@ -42,20 +44,20 @@ public class CadastraFilmesView {
 	private JCheckBox cbOutro;
 	private JButton btSalvar;
 	private JButton btCancelar;
+	private ButtonGroup grupoRadioDisponivel;
+	private ButtonGroup grupoRadioPromocao;
 
 	public void iniciaGui() {
 
 		// Criar Instancias
 		janela = new JFrame();
 		painelDaJanela = (JPanel) janela.getContentPane();
-		lbCodigo = new JLabel();
 		lbNome = new JLabel();
 		lbValor = new JLabel();
 		lbDisponivel = new JLabel();
 		lbPromocao = new JLabel();
 		lbValorDaPromocao = new JLabel();
 		lbGenero = new JLabel();
-		tfCodigo = new JTextField();
 		tfNome = new JTextField();
 		tfValor = new JTextField();
 		tfPromocao = new JTextField();
@@ -71,8 +73,18 @@ public class CadastraFilmesView {
 		btSalvar = new JButton();
 		btCancelar = new JButton();
 
-		 // Configurações dos textos das Labels
-		lbCodigo.setText("Codigo:");
+		// Cria o objeto dos grupos de botões
+		grupoRadioDisponivel = new ButtonGroup();
+		grupoRadioPromocao = new ButtonGroup();
+
+		// Adicionando os botões ao grupo
+		grupoRadioDisponivel.add(rbDisponivelSim);
+		grupoRadioDisponivel.add(rbDisponivelNao);
+		grupoRadioPromocao.add(rbPromocaoSim);
+		grupoRadioPromocao.add(rbPromocaoNao);
+
+		// Configurações dos textos das Labels
+
 		lbNome.setText("Nome:");
 		lbValor.setText("Valor:");
 		lbDisponivel.setText("Disponivel:");
@@ -80,13 +92,9 @@ public class CadastraFilmesView {
 		lbValorDaPromocao.setText("Valor da promoção:");
 		lbGenero.setText("Gênero");
 
-		// configurações das coordenadas dos componentes do codigo
-		lbCodigo.setBounds(20, 20, 50, 20);
-		tfCodigo.setBounds(140, 20, 420, 27);
-
 		// configurações das coordenadas dos componentes do Nome
-		lbNome.setBounds(20, 50, 50, 20);
-		tfNome.setBounds(140, 50, 420, 27);
+		lbNome.setBounds(20, 40, 50, 20);
+		tfNome.setBounds(140, 40, 420, 27);
 
 		// configurações das coordenadas dos componentes do Valor
 		lbValor.setBounds(20, 80, 50, 20);
@@ -105,33 +113,46 @@ public class CadastraFilmesView {
 		lbPromocao.setBounds(20, 150, 70, 20);
 		rbPromocaoSim.setBounds(150, 150, 50, 20);
 		rbPromocaoNao.setBounds(250, 150, 50, 20);
-		
-		//Configurações das coordenadas dos componentes de valor da promoçao
-		lbValorDaPromocao.setBounds(20,180,110,20);
-		tfPromocao.setBounds(140,180,420,27);
-		
-		//Configuraçoes dos componentes de genero
-			lbGenero.setBounds(20,210,50,20);
-			cbAcao.setText("Ação");
-			cbAcao.setBounds(150,210,50,20);
-			cbFiccao.setText("Ficção");
-			cbFiccao.setBounds(213,210,70,20);
-			cbTerror.setText("Terror");
-			cbTerror.setBounds(282,210,70,20);
-			cbComedia.setText("Comedia");
-			cbComedia.setBounds(343,210,100,20);
-			cbOutro.setText("Outro");
-			cbOutro.setBounds(420,210,70,20);
+
+		// Configurações das coordenadas dos componentes de valor da promoçao
+		lbValorDaPromocao.setBounds(20, 180, 110, 20);
+		tfPromocao.setBounds(140, 180, 420, 27);
+
+		// Configuraçoes dos componentes de genero
+		lbGenero.setBounds(20, 220, 50, 20);
+		cbAcao.setText("Ação");
+		cbAcao.setBounds(150, 220, 50, 20);
+		cbFiccao.setText("Ficção");
+		cbFiccao.setBounds(213, 220, 70, 20);
+		cbTerror.setText("Terror");
+		cbTerror.setBounds(282, 220, 70, 20);
+		cbComedia.setText("Comedia");
+		cbComedia.setBounds(343, 220, 100, 20);
+		cbOutro.setText("Outro");
+		cbOutro.setBounds(420, 220, 70, 20);
+
 		// Configuracões dos Botões
 		btSalvar.setText("Salvar");
 		btCancelar.setText("Cancelar");
-		btSalvar.setBounds(150,280,130,35);
-		btCancelar.setBounds(290,280,130,35);
+		btSalvar.setBounds(150, 280, 130, 25);
+		btCancelar.setBounds(290, 280, 130, 25);
+		btCancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				janela.setVisible(false);
+			}
+		});
+		btSalvar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				salvar();
+			}
+		});
 
 		// Configurações do painel da janela
 		painelDaJanela.setLayout(null);
-		painelDaJanela.add(lbCodigo);
-		painelDaJanela.add(tfCodigo);
 		painelDaJanela.add(lbNome);
 		painelDaJanela.add(tfNome);
 		painelDaJanela.add(lbValor);
@@ -155,7 +176,7 @@ public class CadastraFilmesView {
 		painelDaJanela.add(btCancelar);
 
 		// Configurações da janela
-		// janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		janela.setTitle("CADASTRO DE FILME");
 		janela.setSize(600, 370);
 		janela.setResizable(false);
@@ -164,10 +185,66 @@ public class CadastraFilmesView {
 
 	}
 
-	public static void main(String[] args) {
-		new Util().mudarAparencia();
-		new CadastraFilmesView().iniciaGui();
+	public void salvar() {
+
+		if (validarDados()) {
+			JOptionPane.showMessageDialog(null, "Filme gravado com sucesso");
+		}
 
 	}
 
+	public boolean validarDados() {
+		int cont = 0;
+
+		if (tfNome.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Inforome um  Nome valido, campo obrigatorio", "Erro", 0);
+			return false;
+		}
+		if (tfValor.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Inforome um valor valido, campo obrigatorio", "Erro", 0);
+			return false;
+		}
+
+		if (!rbDisponivelSim.isSelected()) {// inicio do if
+			if (!rbDisponivelNao.isSelected()) {// inicio do if
+				JOptionPane.showMessageDialog(null, "Inforome uma disponibilidade valida, campo obrigatorio", "Erro",
+						0);
+
+				return false;
+			} // fim do if
+
+		}
+		if (!rbPromocaoSim.isSelected()) {// inicio do if
+			if (!rbPromocaoNao.isSelected()) {// inicio do if
+				JOptionPane.showMessageDialog(null, "Inforome uma promoção valida, campo obrigatorio", "Erro", 0);
+
+				return false;
+			} // fim do if
+		}
+
+		if (tfPromocao.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Inforome um valor de promoção valido, campo obrigatorio", "Erro", 0);
+			return false;
+		}
+		if (cbAcao.isSelected()) {
+			cont = 1;
+		}
+		if (cbComedia.isSelected()) {
+			cont = 1;
+		}
+		if (cbFiccao.isSelected()) {
+			cont = 1;
+		}
+		if (cbTerror.isSelected()) {
+			cont = 1;
+		}
+		if (cbOutro.isSelected()) {
+			cont = 1;
+		}
+		if (cont == 0) {
+			JOptionPane.showMessageDialog(null, "selecione um genero valido","erro",0);
+			return false;
+		}
+		return true;
+	}
 }

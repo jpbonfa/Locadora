@@ -1,6 +1,7 @@
 package model;
 
 public class Endereco {
+
 	private int codigo;
 	private String lougradouro;
 	private String endereco;
@@ -14,10 +15,8 @@ public class Endereco {
 	public Endereco() {
 	}
 
-	public Endereco(int codigo, String lougradouro, String endereco,
-			int numero, String complemento, String bairro, String cidade,
-			String estado, String cep) {
-
+	public Endereco(int codigo, String lougradouro, String endereco, int numero, String complemento, String bairro,
+			String cidade, String estado, String cep) {
 		this.codigo = codigo;
 		this.lougradouro = lougradouro;
 		this.endereco = endereco;
@@ -100,5 +99,5 @@ public class Endereco {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
-	
+
 }

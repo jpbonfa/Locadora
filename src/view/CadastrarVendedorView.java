@@ -1,17 +1,21 @@
-package View;
+package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import util.Util;
+import util.Valida;
 
-public class CadastraVendedorView {
+public class CadastrarVendedorView {
 
 	private JFrame janela;
 	private JPanel painelDaJanela;
@@ -24,15 +28,17 @@ public class CadastraVendedorView {
 	private JLabel lbSalario;
 	private JTextField tfNome;
 	private JTextField tfArea;
-	private JTextField tfCidade;
 	private JTextField tfIdade;
 	private JTextField tfSalario;
 	private JComboBox cbEstado;
-	private String estado[] = { "São Paulo", "Rio de Janeiro" };
+	private JComboBox cbCidade;
+	private String estado[] = { "- Selecione um estado - ", "São Paulo", "Rio de Janeiro" };
+	private String cidade[] = { "- Selecione uma cidade - ", "São Paulo", "Rio de Janeiro" };
 	private JRadioButton rbMasculino;
 	private JRadioButton rbFeminino;
 	private JButton btSalvar;
 	private JButton btCancelar;
+	private ButtonGroup grupoRadioSexo;
 
 	public void iniciaGui() {
 
@@ -49,7 +55,7 @@ public class CadastraVendedorView {
 		tfNome = new JTextField();
 		tfNome = new JTextField();
 		tfArea = new JTextField();
-		tfCidade = new JTextField();
+		cbCidade = new JComboBox(cidade);
 		tfIdade = new JTextField();
 		tfSalario = new JTextField();
 		cbEstado = new JComboBox(estado);
@@ -57,6 +63,12 @@ public class CadastraVendedorView {
 		rbFeminino = new JRadioButton();
 		btSalvar = new JButton();
 		btCancelar = new JButton();
+
+		// Cria o objeto dos grupos de botões
+		grupoRadioSexo = new ButtonGroup();
+		// Adicionando os botões ao grupo
+		grupoRadioSexo.add(rbMasculino);
+		grupoRadioSexo.add(rbFeminino);
 
 		// Configurações dos textos das Labels
 		lbNome.setText("Nome:");
@@ -77,7 +89,7 @@ public class CadastraVendedorView {
 
 		// configurações das coordenadas dos componentes do Cidade
 		lbCidade.setBounds(20, 80, 50, 20);
-		tfCidade.setBounds(140, 80, 420, 27);
+		cbCidade.setBounds(140, 80, 420, 27);
 
 		// configurações das coordenadas dos componentes do Estado
 		lbEstado.setBounds(20, 110, 50, 20);
@@ -103,6 +115,20 @@ public class CadastraVendedorView {
 		btCancelar.setText("Cancelar");
 		btSalvar.setBounds(150, 280, 130, 35);
 		btCancelar.setBounds(290, 280, 130, 35);
+		btCancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				janela.setVisible(false);
+			}
+		});
+		btSalvar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				salvar();
+			}
+		});
 
 		// Configurações do painel da janela
 		painelDaJanela.setLayout(null);
@@ -111,7 +137,7 @@ public class CadastraVendedorView {
 		painelDaJanela.add(lbArea);
 		painelDaJanela.add(tfArea);
 		painelDaJanela.add(lbCidade);
-		painelDaJanela.add(tfCidade);
+		painelDaJanela.add(cbCidade);
 		painelDaJanela.add(lbEstado);
 		painelDaJanela.add(cbEstado);
 		painelDaJanela.add(lbSexo);
@@ -125,7 +151,7 @@ public class CadastraVendedorView {
 		painelDaJanela.add(btCancelar);
 
 		// Configurações da janela
-		// janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		janela.setTitle("CADASTRO DE VENDEDOR");
 		janela.setSize(600, 370);
 		janela.setResizable(false);
@@ -134,8 +160,53 @@ public class CadastraVendedorView {
 
 	}
 
-	public static void main(String[] args) {
-		new Util().mudarAparencia();
-		new CadastraVendedorView().iniciaGui();
+	public void salvar() {
+
+		if (validarDados()) {
+			JOptionPane.showMessageDialog(null, "Vendedor gravado com sucesso");
+		}
+
 	}
+
+	public boolean validarDados() {
+
+		if (tfNome.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Inforome um nome valido, campo obrigatorio", "Erro", 0);
+			return false;
+		}
+		if (tfArea.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Inforome uma area valida, campo obrigatorio", "Erro", 0);
+			return false;
+		}
+		if (cbCidade.getSelectedIndex() == 0) {
+
+			JOptionPane.showMessageDialog(null, "Inforome uma cidade valida, campo obrigatorio", "Erro", 0);
+			return false;
+		}
+		if (cbEstado.getSelectedIndex() == 0) {
+
+			JOptionPane.showMessageDialog(null, "Inforome um Estado valido, campo obrigatorio", "Erro", 0);
+			return false;
+		}
+		if (!rbMasculino.isSelected()) {// inicio do if
+			if (!rbFeminino.isSelected()) {// inicio do if
+				JOptionPane.showMessageDialog(null, "Inforome um sexo valido, campo obrigatorio", "Erro", 0);
+				return false;
+			}
+		} // fim do if
+
+		if (Valida.verificaIntZero(tfIdade.getText())) {
+
+			JOptionPane.showMessageDialog(null, "Informe uma idade valida, campo obrigatorio", "Erro", 0);
+			return false;
+		}
+		if (Valida.verificaDoubleZero(tfSalario.getText())) {
+
+			JOptionPane.showMessageDialog(null, "Informe um salario valido, campo obrigatorio", "Erro", 0);
+			return false;
+		}
+
+		return true;
+	}
+
 }
