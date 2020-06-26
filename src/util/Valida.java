@@ -76,6 +76,28 @@ public class Valida {// inicio da classe
 
 	}// fim do metodo
 
+	public static boolean verificaCepVazio(String cep) {// inicio do metodo
+		if (cep.equals("     -   ")) {// inicio do if
+			return true;
+		} else {
+			return false;
+		}
+	}// fim do metodo
+	public static boolean verificaTelefoneVazio(String telefone) {// inicio do metodo
+		if (telefone.equals("(  )    -    ")) {// inicio do if
+			return true;
+		} else {
+			return false;
+		}
+	}// fim do metodo
+	public static boolean verificaCelularVazio(String celular) {// inicio do metodo
+		if (celular.equals("(  )     -    ")) {// inicio do if
+			return true;
+		} else {
+			return false;
+		}
+	}// fim do metodo
+
 	public static boolean verificaDia(int args) {
 		if (args > 0 || args <= 31) {
 			return true;

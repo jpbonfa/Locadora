@@ -2,7 +2,6 @@ package model;
 
 public class Endereco {
 
-	private int codigo;
 	private String lougradouro;
 	private String endereco;
 	private int numero;
@@ -15,9 +14,9 @@ public class Endereco {
 	public Endereco() {
 	}
 
-	public Endereco(int codigo, String lougradouro, String endereco, int numero, String complemento, String bairro,
-			String cidade, String estado, String cep) {
-		this.codigo = codigo;
+	public Endereco(String lougradouro, String endereco, int numero, String complemento, String bairro, String cidade,
+			String estado, String cep) {
+
 		this.lougradouro = lougradouro;
 		this.endereco = endereco;
 		this.numero = numero;
@@ -26,14 +25,6 @@ public class Endereco {
 		this.cidade = cidade;
 		this.estado = estado;
 		this.cep = cep;
-	}
-
-	public int getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
 	}
 
 	public String getLougradouro() {

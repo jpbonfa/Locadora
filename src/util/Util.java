@@ -1,6 +1,7 @@
 package util;
 
 import java.text.ParseException;
+import java.util.Calendar;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -10,18 +11,17 @@ import javax.swing.text.MaskFormatter;
 
 public class Util {
 
-	public static String informeMascara(String mask, String msg, String title)
-			throws ParseException {// inicio do metodo
+	public static String informeMascara(String mask, String msg, String title) throws ParseException {// inicio do
+																										// metodo
 		// variavel de retorno do metodo
 		String retorno = null;
 		// criar a mensagem a ser exibida
 		JLabel label = new JLabel(msg);
 		// cria a mascara utilizada no componente
-		JFormattedTextField fmt = new JFormattedTextField(new MaskFormatter(
-				mask));
+		JFormattedTextField fmt = new JFormattedTextField(new MaskFormatter(mask));
 
-		JOptionPane.showConfirmDialog(null, new Object[] { label, fmt }, title,
-				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showConfirmDialog(null, new Object[] { label, fmt }, title, JOptionPane.DEFAULT_OPTION,
+				JOptionPane.PLAIN_MESSAGE);
 
 		retorno = new String(fmt.getText());
 
@@ -47,11 +47,22 @@ public class Util {
 
 	public static void mudarAparencia() {
 		try {
-			UIManager
-					.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
 	}
+
+	public static int calculaIdade(int ano) {
+
+		Calendar cal = Calendar.getInstance();
+		int retorno = 0;
+		int anoAtual = cal.get(Calendar.YEAR);
+
+		retorno = anoAtual - ano;
+
+		return retorno;
+	}
+	
 }

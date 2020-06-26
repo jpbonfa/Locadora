@@ -13,6 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import controller.FilmeController;
+import controller.VendedorController;
+import model.Filme;
+import util.Mensagem;
+
 /**
  * Classe responsavel por armazenar os componentes da tela de cadastro da
  * secretaria
@@ -32,7 +37,7 @@ public class CadastrarFilmeView {
 	private JLabel lbGenero;
 	private JTextField tfNome;
 	private JTextField tfValor;
-	private JTextField tfPromocao;
+	private JTextField tfValorPromocao;
 	private JRadioButton rbDisponivelSim;
 	private JRadioButton rbDisponivelNao;
 	private JRadioButton rbPromocaoSim;
@@ -44,6 +49,8 @@ public class CadastrarFilmeView {
 	private JCheckBox cbOutro;
 	private JButton btSalvar;
 	private JButton btCancelar;
+	private JButton btNovo;
+	private JButton btSair;
 	private ButtonGroup grupoRadioDisponivel;
 	private ButtonGroup grupoRadioPromocao;
 
@@ -60,7 +67,7 @@ public class CadastrarFilmeView {
 		lbGenero = new JLabel();
 		tfNome = new JTextField();
 		tfValor = new JTextField();
-		tfPromocao = new JTextField();
+		tfValorPromocao = new JTextField();
 		rbDisponivelSim = new JRadioButton();
 		rbDisponivelNao = new JRadioButton();
 		rbPromocaoSim = new JRadioButton();
@@ -72,6 +79,8 @@ public class CadastrarFilmeView {
 		cbOutro = new JCheckBox();
 		btSalvar = new JButton();
 		btCancelar = new JButton();
+		btNovo = new JButton();
+		btSair = new JButton();
 
 		// Cria o objeto dos grupos de botões
 		grupoRadioDisponivel = new ButtonGroup();
@@ -84,7 +93,6 @@ public class CadastrarFilmeView {
 		grupoRadioPromocao.add(rbPromocaoNao);
 
 		// Configurações dos textos das Labels
-
 		lbNome.setText("Nome:");
 		lbValor.setText("Valor:");
 		lbDisponivel.setText("Disponivel:");
@@ -116,7 +124,7 @@ public class CadastrarFilmeView {
 
 		// Configurações das coordenadas dos componentes de valor da promoçao
 		lbValorDaPromocao.setBounds(20, 180, 110, 20);
-		tfPromocao.setBounds(140, 180, 420, 27);
+		tfValorPromocao.setBounds(140, 180, 420, 27);
 
 		// Configuraçoes dos componentes de genero
 		lbGenero.setBounds(20, 220, 50, 20);
@@ -134,13 +142,18 @@ public class CadastrarFilmeView {
 		// Configuracões dos Botões
 		btSalvar.setText("Salvar");
 		btCancelar.setText("Cancelar");
+		btNovo.setText("Novo");
+		btSair.setText("Sair");
 		btSalvar.setBounds(150, 280, 130, 25);
+		btNovo.setBounds(150, 280, 130, 25);
 		btCancelar.setBounds(290, 280, 130, 25);
-		btCancelar.addActionListener(new ActionListener() {
+		btSair.setBounds(290, 280, 130, 25);
 
+		// Configurações das ações dos botões
+		btCancelar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				janela.setVisible(false);
+				cancelar();
 			}
 		});
 		btSalvar.addActionListener(new ActionListener() {
@@ -148,6 +161,20 @@ public class CadastrarFilmeView {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				salvar();
+			}
+		});
+		btNovo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				novo();
+			}
+		});
+		btSair.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				janela.setVisible(false);
 			}
 		});
 
@@ -164,7 +191,7 @@ public class CadastrarFilmeView {
 		painelDaJanela.add(rbPromocaoSim);
 		painelDaJanela.add(rbPromocaoNao);
 		painelDaJanela.add(lbValorDaPromocao);
-		painelDaJanela.add(tfPromocao);
+		painelDaJanela.add(tfValorPromocao);
 		painelDaJanela.add(lbGenero);
 		painelDaJanela.add(cbAcao);
 		painelDaJanela.add(cbFiccao);
@@ -174,6 +201,8 @@ public class CadastrarFilmeView {
 		painelDaJanela.add(cbOutro);
 		painelDaJanela.add(btSalvar);
 		painelDaJanela.add(btCancelar);
+		painelDaJanela.add(btNovo);
+		painelDaJanela.add(btSair);
 
 		// Configurações da janela
 		janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -183,12 +212,56 @@ public class CadastrarFilmeView {
 		janela.setLocationRelativeTo(null);
 		janela.setVisible(true);
 
+		bloqueioInicial();
 	}
 
 	public void salvar() {
+		Filme filme = new Filme();
 
 		if (validarDados()) {
-			JOptionPane.showMessageDialog(null, "Filme gravado com sucesso");
+			filme.setNome(tfNome.getText());
+			filme.setValor(Double.parseDouble(tfValor.getText()));
+			filme.setValor(Double.parseDouble(tfValorPromocao.getText()));
+
+			if (rbDisponivelSim.isSelected()) {
+				filme.setDisponivel(true);
+			}
+
+			if (rbDisponivelNao.isSelected()) {
+				filme.setDisponivel(false);
+			}
+			if (rbPromocaoSim.isSelected()) {
+				filme.setDisponivel(true);
+			}
+			if (rbPromocaoNao.isSelected()) {
+				filme.setDisponivel(false);
+			}
+
+			if (cbAcao.isSelected()) {
+				filme.setGenero(cbAcao.getText());
+
+			}
+			if (cbFiccao.isSelected()) {
+				filme.setGenero(cbFiccao.getText());
+
+			}
+			if (cbTerror.isSelected()) {
+				filme.setGenero(cbTerror.getText());
+
+			}
+			if (cbComedia.isSelected()) {
+				filme.setGenero(cbComedia.getText());
+
+			}
+			if (cbOutro.isSelected()) {
+				filme.setGenero(cbOutro.getText());
+
+			}
+
+			new FilmeController().inserir(filme);
+
+			limparCampos();
+			bloqueioInicial();
 		}
 
 	}
@@ -197,33 +270,31 @@ public class CadastrarFilmeView {
 		int cont = 0;
 
 		if (tfNome.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "Inforome um  Nome valido, campo obrigatorio", "Erro", 0);
+			JOptionPane.showMessageDialog(null, Mensagem.informeNome, Mensagem.erro, 0);
 			return false;
 		}
 		if (tfValor.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "Inforome um valor valido, campo obrigatorio", "Erro", 0);
+			JOptionPane.showMessageDialog(null, Mensagem.informeValor, Mensagem.erro, 0);
 			return false;
 		}
 
 		if (!rbDisponivelSim.isSelected()) {// inicio do if
 			if (!rbDisponivelNao.isSelected()) {// inicio do if
-				JOptionPane.showMessageDialog(null, "Inforome uma disponibilidade valida, campo obrigatorio", "Erro",
-						0);
-
+				JOptionPane.showMessageDialog(null, Mensagem.informeDisponibilidade, Mensagem.erro, 0);
 				return false;
 			} // fim do if
 
 		}
 		if (!rbPromocaoSim.isSelected()) {// inicio do if
 			if (!rbPromocaoNao.isSelected()) {// inicio do if
-				JOptionPane.showMessageDialog(null, "Inforome uma promoção valida, campo obrigatorio", "Erro", 0);
+				JOptionPane.showMessageDialog(null, Mensagem.informePromocao, Mensagem.erro, 0);
 
 				return false;
 			} // fim do if
 		}
 
-		if (tfPromocao.getText().equals("")) {
-			JOptionPane.showMessageDialog(null, "Inforome um valor de promoção valido, campo obrigatorio", "Erro", 0);
+		if (tfValorPromocao.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, Mensagem.informeValorPromocao, Mensagem.erro, 0);
 			return false;
 		}
 		if (cbAcao.isSelected()) {
@@ -242,9 +313,68 @@ public class CadastrarFilmeView {
 			cont = 1;
 		}
 		if (cont == 0) {
-			JOptionPane.showMessageDialog(null, "selecione um genero valido","erro",0);
+			JOptionPane.showMessageDialog(null, Mensagem.selecioneGenero, Mensagem.erro, 0);
 			return false;
 		}
 		return true;
+	}
+
+	public void novo() {
+		btNovo.setVisible(false);
+		btSair.setVisible(false);
+		btSalvar.setVisible(true);
+		btCancelar.setVisible(true);
+		tfNome.setEditable(true);
+		tfValor.setEditable(true);
+		rbDisponivelNao.setEnabled(true);
+		rbDisponivelSim.setEnabled(true);
+		rbPromocaoNao.setEnabled(true);
+		rbPromocaoSim.setEnabled(true);
+		tfValor.setEditable(true);
+		cbAcao.setEnabled(true);
+		cbComedia.setEnabled(true);
+		cbFiccao.setEnabled(true);
+		cbTerror.setEnabled(true);
+		cbOutro.setEnabled(true);
+	}
+
+	public void cancelar() {
+		limparCampos();
+		bloqueioInicial();
+
+	}
+
+	public void bloqueioInicial() {
+		btNovo.setVisible(true);
+		btSair.setVisible(true);
+		btSalvar.setVisible(false);
+		btCancelar.setVisible(false);
+		tfNome.setEditable(false);
+		tfValor.setEditable(false);
+		rbDisponivelNao.setEnabled(false);
+		rbDisponivelSim.setEnabled(false);
+		rbPromocaoNao.setEnabled(false);
+		rbPromocaoSim.setEnabled(false);
+		tfValor.setEditable(false);
+		cbAcao.setEnabled(false);
+		cbComedia.setEnabled(false);
+		cbFiccao.setEnabled(false);
+		cbTerror.setEnabled(false);
+		cbOutro.setEnabled(false);
+
+	}
+
+	public void limparCampos() {
+		tfNome.setText(null);
+		tfValor.setText(null);
+		grupoRadioDisponivel.clearSelection();
+		grupoRadioPromocao.clearSelection();
+		tfValorPromocao.setText(null);
+		cbAcao.setSelected(false);
+		cbComedia.setSelected(false);
+		cbFiccao.setSelected(false);
+		cbTerror.setSelected(false);
+		cbOutro.setSelected(false);
+
 	}
 }

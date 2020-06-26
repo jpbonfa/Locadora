@@ -10,6 +10,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import controller.FilmeController;
+import controller.VendedorController;
+import model.Filme;
+import model.Vendedor;
+
 public class ConsultarVendedorView {
 
 	private JFrame janela;
@@ -18,7 +23,7 @@ public class ConsultarVendedorView {
 	private JTable tbTabela;
 	private JScrollPane scroll;
 	private String colunas[] = { "Nome", "Area de venda", "Cidade", "Estado", "Idade", "Salario" };
-	private String dados[][] = { { "Antonio Kafta", "Zona Oeste", "Osasco", "São paulo", "19", "10.000,00" }, {} };
+	private String dados[][] = { {} };
 
 	public void iniciaGui() {
 
@@ -48,6 +53,8 @@ public class ConsultarVendedorView {
 			}
 		});
 
+		carregarVendedores();
+
 		// Configurações do painel da janela
 		painelDaJanela.setLayout(null);
 		painelDaJanela.add(scroll);
@@ -55,7 +62,7 @@ public class ConsultarVendedorView {
 
 		// Configurações da janela
 		janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		janela.setTitle("Consulta De Vendedor");
+		janela.setTitle("CONSULTA DE VENDEDOR");
 		janela.setSize(600, 380);
 		janela.setResizable(false);
 		janela.setLocationRelativeTo(null);
@@ -63,8 +70,17 @@ public class ConsultarVendedorView {
 
 	}
 
-	public static void main(String[] args) {
-		new ConsultarVendedorView().iniciaGui();
+	public void carregarVendedores() {
+		// Obtendo o modelo da tabela ja criada
+		DefaultTableModel modelo = (DefaultTableModel) tbTabela.getModel();
+		modelo.removeRow(0);
+		for (Vendedor vendedor : new VendedorController().buscarTodos()) {
+			// Adicioando a linha com os dados
+			modelo.addRow(new String[] { vendedor.getCodigo() + "", vendedor.getNome(), vendedor.getAreaVenda(),
+					vendedor.getCidade(), vendedor.getEstado(), vendedor.getSexo() + "", vendedor.getIdade() + "",
+					vendedor.getSalario() + "" });
+
+		}
 	}
 
 }

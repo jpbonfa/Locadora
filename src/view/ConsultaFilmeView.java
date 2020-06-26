@@ -10,6 +10,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import controller.FilmeController;
+import model.Filme;
+
 public class ConsultaFilmeView {
 
 	private JFrame janela;
@@ -18,7 +21,7 @@ public class ConsultaFilmeView {
 	private JTable tbTabela;
 	private JScrollPane scroll;
 	private String colunas[] = { "Codigo", "Nome", "Valor", "Disponivel", "Promoção", "Valor Promocional" };
-	private String dados[][] = { { "01", "MIB", "15,00", "SIM", "5,00", "10,00" }, {} };
+	private String dados[][] = { {} };
 
 	public void iniciaGui() {
 
@@ -48,6 +51,8 @@ public class ConsultaFilmeView {
 			}
 		});
 
+		carregarFilmes();
+
 		// Configurações do painel da janela
 		painelDaJanela.setLayout(null);
 		painelDaJanela.add(scroll);
@@ -55,12 +60,24 @@ public class ConsultaFilmeView {
 
 		// Configurações da janela
 		janela.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		janela.setTitle("Consulta DE FILME");
+		janela.setTitle("CONSULTA DE FILME");
 		janela.setSize(600, 380);
 		janela.setResizable(false);
 		janela.setLocationRelativeTo(null);
 		janela.setVisible(true);
 
+	}
+
+	public void carregarFilmes() {
+		// Obtendo o modelo da tabela ja criada
+		DefaultTableModel modelo = (DefaultTableModel) tbTabela.getModel();
+		modelo.removeRow(0);
+		for (Filme filme : new FilmeController().buscarTodos()) {
+			// Adicioando a linha com os dados
+			modelo.addRow(new String[] { filme.getCodigo() + "", filme.getNome(), filme.getValor() + "",
+					filme.isDisponivel() + "", filme.isPromocao() + "", filme.getValorDaPromocao() + "" });
+
+		}
 	}
 
 }

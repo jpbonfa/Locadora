@@ -1,5 +1,7 @@
 package model;
 
+import util.Util;
+
 public class Data {
 
 	private int dia;
@@ -14,6 +16,13 @@ public class Data {
 		this.dia = dia;
 		this.mes = mes;
 		this.ano = ano;
+	}
+	
+	public Data(String data) {
+		int aux[] = Util.quebraData(data);
+		this.dia = aux[0];
+		this.mes = aux[1];
+		this.ano = aux[2];
 	}
 
 	public int getDia() {

@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import util.Mensagem;
 import util.Util;
 import util.Valida;
 
@@ -167,15 +168,15 @@ public class CadastrarLocacaoView {
 	public boolean validarDados() {
 
 		if (tfPago.equals("")) {
-			JOptionPane.showMessageDialog(null, "Inforome Valor valido, campo obrigatorio", "Erro", 0);
+			JOptionPane.showMessageDialog(null,  Mensagem.informeValor, Mensagem.erro,0);
 			return false;
 		}
 		if (tfTotal.equals("")) {
-			JOptionPane.showMessageDialog(null, "Inforome Valor valido, campo obrigatorio", "Erro", 0);
+			JOptionPane.showMessageDialog(null,  Mensagem.informeValor, Mensagem.erro,0);
 			return false;
 		}
 		if (tfTroco.equals("")) {
-			JOptionPane.showMessageDialog(null, "Inforome Valor valido, campo obrigatorio", "Erro", 0);
+			JOptionPane.showMessageDialog(null,  Mensagem.informeValor, Mensagem.erro,0);
 			return false;
 
 		}

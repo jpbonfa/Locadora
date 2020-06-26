@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 public class MenuPrincipalView {
 
@@ -17,18 +16,23 @@ public class MenuPrincipalView {
 	private JMenuBar barraMenu;
 	private JMenu menuCadastro;
 	private JMenu menuConsulta;
+	private JMenu menuExcluir;
+	private JMenu menuAlterar;
 	private JMenu menuSair;
-	private JMenuItem itemMenuCliente;
-	private JMenuItem itemMenuVendedor;
-	private JMenuItem itemMenuFilme;
-	private JMenuItem itemMenuLocacao;
+	private JMenuItem itemMenuCadastrarCliente;
+	private JMenuItem itemMenuCadastrarVendedor;
+	private JMenuItem itemMenuCadastrarFilme;
+	private JMenuItem itemMenuCadastrarLocacao;
 	private JMenuItem itemMenuConsultaCliente;
 	private JMenuItem itemMenuConsultaVendedor;
 	private JMenuItem itemMenuConsultaFilme;
-	private JMenuItem itemMenuConsultaLocacao;
 	private JMenuItem itemMenuSair;
-	private JMenuItem itemMenu10;
-	private JMenuItem itemMenu11;
+	private JMenuItem itemMenuExcluirCliente;
+	private JMenuItem itemMenuExcluirFilme;
+	private JMenuItem itemMenuExcluirVendedor;
+	private JMenuItem itemMenuAlterarCliente;
+	private JMenuItem itemMenuAlterarFilme;
+	private JMenuItem itemMenuAlterarVendedor;
 
 	public void iniciaGui() {
 
@@ -37,52 +41,80 @@ public class MenuPrincipalView {
 		barraMenu = new JMenuBar();
 		menuCadastro = new JMenu();
 		menuConsulta = new JMenu();
-		itemMenuCliente = new JMenuItem();
-		itemMenuVendedor = new JMenuItem();
-		itemMenuFilme = new JMenuItem();
-		itemMenuLocacao = new JMenuItem();
+		menuExcluir = new JMenu();
+		menuAlterar = new JMenu();
+		itemMenuCadastrarCliente = new JMenuItem();
+		itemMenuCadastrarVendedor = new JMenuItem();
+		itemMenuCadastrarFilme = new JMenuItem();
+		itemMenuCadastrarLocacao = new JMenuItem();
 		itemMenuConsultaCliente = new JMenuItem();
 		itemMenuConsultaVendedor = new JMenuItem();
 		itemMenuConsultaFilme = new JMenuItem();
-		itemMenuConsultaLocacao = new JMenuItem();
+		itemMenuAlterarCliente = new JMenuItem();
+		itemMenuAlterarFilme = new JMenuItem();
+		itemMenuAlterarVendedor = new JMenuItem();
+		itemMenuExcluirCliente = new JMenuItem();
+		itemMenuExcluirFilme = new JMenuItem();
+		itemMenuExcluirVendedor = new JMenuItem();
+
 		itemMenuSair = new JMenuItem();
 		menuSair = new JMenu();
 
 		menuCadastro.setText("Cadastro");
 		menuConsulta.setText("Consulta");
+		menuAlterar.setText("Alterar");
+		menuExcluir.setText("Excluir");
 		menuSair.setText("Sair");
 
 		// Adicionando os rotulos aos intens de menu
-		itemMenuCliente.setText("Cliente");
-		itemMenuVendedor.setText("Vendedor");
-		itemMenuFilme.setText("Filme");
-		itemMenuLocacao.setText("Locação");
+		itemMenuCadastrarCliente.setText("Cliente");
+		itemMenuCadastrarVendedor.setText("Vendedor");
+		itemMenuCadastrarFilme.setText("Filme");
+		itemMenuCadastrarLocacao.setText("Locação");
 		itemMenuConsultaCliente.setText("Cliente");
 		itemMenuConsultaVendedor.setText("Vendedor");
 		itemMenuConsultaFilme.setText("Filme");
+		itemMenuAlterarCliente.setText("Cliente");
+		itemMenuAlterarVendedor.setText("Vendedor");
+		itemMenuAlterarFilme.setText("Filme");
+		itemMenuExcluirCliente.setText("Cliente");
+		itemMenuExcluirVendedor.setText("Vendedor");
+		itemMenuExcluirFilme.setText("Filme");
 		itemMenuSair.setText("Sair");
 
 		// Adicionando os menus a barra de menu
 		barraMenu.add(menuCadastro);
 		barraMenu.add(menuConsulta);
+		barraMenu.add(menuAlterar);
+		barraMenu.add(menuExcluir);
 		barraMenu.add(menuSair);
 
 		// Adicionando os itens de menu no menuCadastro
-		menuCadastro.add(itemMenuCliente);
-		menuCadastro.add(itemMenuVendedor);
-		menuCadastro.add(itemMenuFilme);
-		menuCadastro.add(itemMenuLocacao);
+		menuCadastro.add(itemMenuCadastrarCliente);
+		menuCadastro.add(itemMenuCadastrarVendedor);
+		menuCadastro.add(itemMenuCadastrarFilme);
+		menuCadastro.add(itemMenuCadastrarLocacao);
 
 		// adicionando os itens de menu no menuConsulta
 		menuConsulta.add(itemMenuConsultaCliente);
 		menuConsulta.add(itemMenuConsultaVendedor);
 		menuConsulta.add(itemMenuConsultaFilme);
 
+		// adicionando os itens de menu no menuAlterar
+		menuAlterar.add(itemMenuAlterarCliente);
+		menuAlterar.add(itemMenuAlterarVendedor);
+		menuAlterar.add(itemMenuAlterarFilme);
+
+		// adicionando os itens de menu no menuExcluir
+		menuExcluir.add(itemMenuExcluirCliente);
+		menuExcluir.add(itemMenuExcluirVendedor);
+		menuExcluir.add(itemMenuExcluirFilme);
+
 		// adicionando os itens de menu no menuSair
 		menuSair.add(itemMenuSair);
 
 		// Configurando as ações dos itens de menu
-		itemMenuCliente.addActionListener(new ActionListener() {
+		itemMenuCadastrarCliente.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -95,21 +127,21 @@ public class MenuPrincipalView {
 
 			}
 		});
-		itemMenuVendedor.addActionListener(new ActionListener() {
+		itemMenuCadastrarVendedor.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				new CadastrarVendedorView().iniciaGui();
 			}
 		});
-		itemMenuFilme.addActionListener(new ActionListener() {
+		itemMenuCadastrarFilme.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				new CadastrarFilmeView().iniciaGui();
 			}
 		});
-		itemMenuLocacao.addActionListener(new ActionListener() {
+		itemMenuCadastrarLocacao.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -131,6 +163,13 @@ public class MenuPrincipalView {
 				new ConsultaFilmeView().iniciaGui();
 			}
 		});
+		itemMenuConsultaCliente.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new ConsultaClienteView().iniciaGui();
+			}
+		});
 
 		itemMenuSair.addActionListener(new ActionListener() {
 
@@ -139,11 +178,72 @@ public class MenuPrincipalView {
 				System.exit(0);
 			}
 		});
+		itemMenuExcluirCliente.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				new ExcluirClienteView().iniciaGui();
+			}
+		});
+		itemMenuExcluirCliente.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				new ExcluirClienteView().iniciaGui();
+			}
+		});
+		itemMenuExcluirFilme.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				new ExcluirFilmeView().iniciaGui();
+			}
+		});
+		itemMenuExcluirVendedor.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				new ExcluirVendedorView().iniciaGui();
+			}
+		});
+		itemMenuAlterarVendedor.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				new AlterarVendedorView().iniciaGui();
+			}
+		});
+		itemMenuAlterarFilme.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				new AlterarFilmeView().iniciaGui();
+			}
+		});
+		itemMenuAlterarCliente.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				try {
+					new AlterarClienteView().iniciaGui();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 
 		// Configuraçoes da janela
 		janela.setJMenuBar(barraMenu);
 		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		janela.setTitle("Exemplo de menu");
+		janela.setTitle("EXEMPLO DE MENU");
 		janela.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		janela.setLocationRelativeTo(null);
 		janela.setVisible(true);
