@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -21,6 +22,7 @@ import controller.ClienteController;
 import controller.EstadoController;
 import model.Cidade;
 import model.Cliente;
+import model.Endereco;
 import model.Estado;
 
 public class AlterarClienteView {
@@ -84,6 +86,8 @@ public class AlterarClienteView {
 	private MaskFormatter fmtCep;
 	// arraylist
 	private ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
+	// objeto cliente
+	private Cliente cliente = new Cliente();
 
 	public void iniciaGui() throws ParseException {
 
@@ -151,10 +155,6 @@ public class AlterarClienteView {
 
 		// configurações dos componentes da comboBox de seleção
 		cbClientes.setBounds(25, 30, 450, 25);
-
-		// configurações do botão OK
-		btOk.setText("OK");
-		btOk.setBounds(480, 30, 80, 25);
 
 		// configurações dos componentes de nome
 		lbNome.setText("Nome:");
@@ -241,6 +241,15 @@ public class AlterarClienteView {
 		// configurações do botão alterar
 		btAlterar.setText("Alterar");
 		btAlterar.setBounds(180, 300, 90, 25);
+		btAlterar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				alterar();
+				limparCampos();
+				bloqueioInicial();
+			}
+		});
+
 		// configurações do botão cancelar
 		btCancelar.setText("Cancelar");
 		btCancelar.setBounds(280, 300, 90, 25);
@@ -251,9 +260,27 @@ public class AlterarClienteView {
 			}
 		});
 
+		// configurações do botão OK
+		btOk.setText("OK");
+		btOk.setBounds(480, 30, 80, 25);
+		btOk.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (cbClientes.getSelectedIndex() > 0) {
+					ok();
+					desbloqueioAlterar();
+				} else {
+					JOptionPane.showMessageDialog(null, "Selecione um cliente valido");
+				}
+
+			}
+		});
+
 		carregarCidade();
 		carregarEstado();
 		carregarCliente();
+		bloqueioInicial();
 		// Configurações do painel da janela
 		painelDaJanela.setLayout(null);
 		painelDaJanela.add(cbClientes);
@@ -328,4 +355,103 @@ public class AlterarClienteView {
 		}
 	}
 
+	public void bloqueioInicial() {
+		tfNome.setEditable(false);
+		tfData.setEditable(false);
+		cbLougradouro.setEnabled(false);
+		tfEndereco.setEditable(false);
+		tfNumero.setEditable(false);
+		tfComplemento.setEditable(false);
+		cbCidade.setEnabled(false);
+		cbEstado.setEnabled(false);
+		tfBairro.setEditable(false);
+		tfCep.setEditable(false);
+		rbMasculino.setEnabled(false);
+		rbFeminino.setEnabled(false);
+		tfRg.setEditable(false);
+		tfCpf.setEditable(false);
+		tfCelular.setEditable(false);
+		tfTelefone.setEditable(false);
+		tfEmail.setEditable(false);
+
+	}
+
+	public void ok() {
+		cliente = listaClientes.get(cbClientes.getSelectedIndex() - 1);
+		tfNome.setText(cliente.getNome());
+		tfData.setText(cliente.getDataDeNascimento() + "");
+		cbLougradouro.setSelectedItem(cliente.getEndereco().getLougradouro());
+		tfEndereco.setText(cliente.getEndereco().getEndereco());
+		tfNumero.setText(cliente.getEndereco().getNumero() + "");
+		tfComplemento.setText(cliente.getEndereco().getComplemento());
+		cbCidade.setSelectedItem(cliente.getEndereco().getCidade());
+		cbEstado.setSelectedItem(cliente.getEndereco().getEstado());
+		tfBairro.setText(cliente.getEndereco().getBairro());
+		tfCep.setText(cliente.getEndereco().getCep());
+		tfCpf.setText(cliente.getCpf());
+		tfRg.setText(cliente.getRg());
+		if (cliente.getSexo() == 'M') {
+			rbMasculino.setSelected(true);
+		} else {
+			rbFeminino.setSelected(true);
+		}
+		tfTelefone.setText(cliente.getTelefone());
+		tfCelular.setText(cliente.getCelular());
+		tfEmail.setText(cliente.getEmail());
+
+	}
+
+	public void desbloqueioAlterar() {
+		cbLougradouro.setEnabled(true);
+		tfEndereco.setEditable(true);
+		tfNumero.setEditable(true);
+		tfComplemento.setEditable(true);
+		cbCidade.setEnabled(true);
+		cbEstado.setEnabled(true);
+		tfBairro.setEditable(true);
+		tfCep.setEditable(true);
+		tfCelular.setEditable(true);
+		tfTelefone.setEditable(true);
+		tfEmail.setEditable(true);
+	}
+
+	public void alterar() {
+		Endereco endereco = new Endereco();
+		endereco.setLougradouro(cbLougradouro.getSelectedItem() + "");
+		endereco.setEndereco(tfEndereco.getText());
+		endereco.setNumero(Integer.parseInt(tfNumero.getText()));
+		endereco.setComplemento(tfComplemento.getText());
+		endereco.setCidade(cbCidade.getSelectedItem() + "");
+		endereco.setEstado(cbEstado.getSelectedItem() + "");
+		endereco.setBairro(tfBairro.getText());
+		endereco.setCep(tfCep.getText());
+		cliente.setEndereco(endereco);
+		cliente.setTelefone(tfTelefone.getText());
+		cliente.setCelular(tfCelular.getText());
+		cliente.setEmail(tfEmail.getText());
+		new ClienteController().alterar(cliente);
+
+	}
+
+	public void limparCampos() {
+		tfNome.setText(null);
+		tfCpf.setText(null);
+		tfRg.setText(null);
+		tfRg.setText(null);
+		tfData.setText(null);
+		tfEndereco.setText(null);
+		tfNumero.setText(null);
+		tfComplemento.setText(null);
+		tfCep.setText(null);
+		tfBairro.setText(null);
+		grupoRadioSexo.clearSelection();
+		tfTelefone.setText(null);
+		tfCelular.setText(null);
+		tfEmail.setText(null);
+		cbLougradouro.setSelectedIndex(0);
+		cbCidade.setSelectedIndex(0);
+		cbEstado.setSelectedIndex(0);
+		cbClientes.setSelectedIndex(0);
+
+	}
 }

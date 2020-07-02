@@ -51,7 +51,14 @@ public class Data {
 
 	@Override
 	public String toString() {
-		return this.dia + "/" + this.mes + "/" + this.ano;
+		String dia = "", mes = "";
+		if (this.dia < 10) {
+			dia = "0" + this.dia;
+		}
+		if (this.mes < 10) {
+			mes = "0" + this.mes;
+		}
+		return dia + "/" + mes + "/" + this.ano;
 	}
 
 }

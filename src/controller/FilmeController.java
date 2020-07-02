@@ -44,6 +44,7 @@ public class FilmeController {
 		}
 		return listaFilmes;
 	}
+
 	public void excluir(Filme filme) {
 		FilmeDAO dao = new FilmeDAO(conexao);
 		try {
@@ -52,6 +53,18 @@ public class FilmeController {
 			conexao.close();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "erro ao excluir o filme");
+			e.printStackTrace();
+		}
+	}
+
+	public void alterar(Filme filme) {
+		FilmeDAO dao = new FilmeDAO(conexao);
+		try {
+			dao.alterar(filme);
+			JOptionPane.showMessageDialog(null, "Filme alterado com sucesso");
+			conexao.close();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "erro ao alterar o filme");
 			e.printStackTrace();
 		}
 	}

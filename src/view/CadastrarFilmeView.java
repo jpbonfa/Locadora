@@ -221,7 +221,7 @@ public class CadastrarFilmeView {
 		if (validarDados()) {
 			filme.setNome(tfNome.getText());
 			filme.setValor(Double.parseDouble(tfValor.getText()));
-			filme.setValor(Double.parseDouble(tfValorPromocao.getText()));
+			filme.setValorDaPromocao(Double.parseDouble(tfValorPromocao.getText()));
 
 			if (rbDisponivelSim.isSelected()) {
 				filme.setDisponivel(true);
@@ -355,7 +355,6 @@ public class CadastrarFilmeView {
 		rbDisponivelSim.setEnabled(false);
 		rbPromocaoNao.setEnabled(false);
 		rbPromocaoSim.setEnabled(false);
-		tfValor.setEditable(false);
 		cbAcao.setEnabled(false);
 		cbComedia.setEnabled(false);
 		cbFiccao.setEnabled(false);

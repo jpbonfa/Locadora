@@ -29,7 +29,8 @@ public class VendedorController {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "erro ao inserir o vendedor");
 			e.printStackTrace();
-		};
+		}
+		;
 	}
 
 	public List<Vendedor> buscarTodos() {
@@ -44,6 +45,7 @@ public class VendedorController {
 		}
 		return listaVendedores;
 	}
+
 	public void excluir(Vendedor vendedor) {
 		VendedorDAO dao = new VendedorDAO(conexao);
 		try {
@@ -52,6 +54,18 @@ public class VendedorController {
 			conexao.close();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "erro ao excluir o vendedor");
+			e.printStackTrace();
+		}
+	}
+
+	public void alterar(Vendedor vendedor) {
+		VendedorDAO dao = new VendedorDAO(conexao);
+		try {
+			dao.alterar(vendedor);
+			JOptionPane.showMessageDialog(null, "Vendedor alterado com sucesso");
+			conexao.close();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "erro ao alterar o vendedor");
 			e.printStackTrace();
 		}
 	}

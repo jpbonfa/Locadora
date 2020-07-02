@@ -10,11 +10,14 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import controller.ClienteController;
 import controller.FilmeController;
+import model.Cliente;
 import model.Filme;
 
 public class AlterarFilmeView {
@@ -55,6 +58,8 @@ public class AlterarFilmeView {
 	private ButtonGroup grupoRadioPromocao;
 	// arraylist
 	private ArrayList<Filme> listaFilmes = new ArrayList<Filme>();
+	// objeto filme
+	private Filme filme = new Filme();
 
 	public void iniciaGui() {
 		// Criar Instancias
@@ -95,9 +100,7 @@ public class AlterarFilmeView {
 
 		// configurações dos componentes da comboBox de seleção
 		cbFilmes.setBounds(25, 30, 450, 25);
-		// configurações do botão OK
-		btOk.setText("OK");
-		btOk.setBounds(480, 30, 80, 25);
+
 		// configurações dos componentes de nome
 		lbNome.setText("Nome:");
 		lbNome.setBounds(25, 60, 80, 25);
@@ -108,8 +111,8 @@ public class AlterarFilmeView {
 		tfValor.setBounds(420, 60, 140, 25);
 		// configurações dos componentes de disponibilidade
 		lbDisponivel.setText("Disp: ");
-		rbDisponivelSim.setText("Disponivel");
-		rbDisponivelNao.setText("Indisponivel");
+		rbDisponivelSim.setText("Sim");
+		rbDisponivelNao.setText("Não");
 		lbDisponivel.setBounds(25, 90, 80, 25);
 		rbDisponivelSim.setBounds(100, 90, 90, 25);
 		rbDisponivelNao.setBounds(190, 90, 100, 25);
@@ -144,6 +147,14 @@ public class AlterarFilmeView {
 		// configurações do botão alterar
 		btAlterar.setText("Alterar");
 		btAlterar.setBounds(180, 220, 90, 25);
+		btAlterar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				alterar();
+				limparCampos();
+				bloqueioInicial();
+			}
+		});
 
 		// configurações do botão cancelar
 		btCancelar.setText("Cancelar");
@@ -154,7 +165,24 @@ public class AlterarFilmeView {
 				janela.setVisible(false);
 			}
 		});
+		// configurações do botão OK
+		btOk.setText("OK");
+		btOk.setBounds(480, 30, 80, 25);
+		btOk.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (cbFilmes.getSelectedIndex() > 0) {
+					ok();
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Selecione um Filme valido");
+				}
+
+			}
+		});
+
 		carregarFilme();
+		bloqueioInicial();
 		// Configurações do painel da janela
 		painelDaJanela.setLayout(null);
 		painelDaJanela.add(cbFilmes);
@@ -197,5 +225,96 @@ public class AlterarFilmeView {
 			cbFilmes.addItem(filme.getNome());
 			listaFilmes.add(filme);
 		}
+	}
+
+	public void bloqueioInicial() {
+		tfNome.setEditable(false);
+		tfValor.setEditable(false);
+		tfValorPromocao.setEditable(false);
+		rbDisponivelSim.setEnabled(false);
+		rbDisponivelNao.setEnabled(false);
+		rbPromocaoSim.setEnabled(false);
+		rbPromocaoNao.setEnabled(false);
+		cbAcao.setEnabled(false);
+		cbComedia.setEnabled(false);
+		cbFiccao.setEnabled(false);
+		cbTerror.setEnabled(false);
+		cbOutro.setEnabled(false);
+
+	}
+
+	public void desbloqueioAlterar() {
+		tfValor.setEditable(true);
+		tfValorPromocao.setEditable(true);
+		rbDisponivelSim.setEnabled(true);
+		rbDisponivelNao.setEnabled(true);
+		rbPromocaoSim.setEnabled(true);
+		rbPromocaoNao.setEnabled(true);
+	}
+
+	public void limparCampos() {
+		tfNome.setText(null);
+		tfValor.setText(null);
+		grupoRadioDisponivel.clearSelection();
+		grupoRadioPromocao.clearSelection();
+		tfValorPromocao.setText(null);
+		cbAcao.setSelected(false);
+		cbComedia.setSelected(false);
+		cbFiccao.setSelected(false);
+		cbTerror.setSelected(false);
+		cbOutro.setSelected(false);
+		new FilmeController().alterar(filme);
+	}
+
+	public void alterar() {
+		filme.setValor(Double.parseDouble(tfValor.getText()));
+		if (rbDisponivelSim.isSelected()) {
+			filme.setDisponivel(true);
+		}
+
+		if (rbDisponivelNao.isSelected()) {
+			filme.setDisponivel(false);
+		}
+		if (rbPromocaoSim.isSelected()) {
+			filme.setPromocao(true);
+		}
+		if (rbPromocaoNao.isSelected()) {
+			filme.setPromocao(false);
+		}
+		filme.setValorDaPromocao(Double.parseDouble(tfValorPromocao.getText()));
+
+	}
+
+	public void ok() {
+		filme = listaFilmes.get(cbFilmes.getSelectedIndex() - 1);
+		tfNome.setText(filme.getNome());
+		tfValor.setText(filme.getValor() + "");
+		if (filme.isDisponivel()) {
+			rbDisponivelSim.setSelected(true);
+		} else {
+			rbDisponivelNao.setSelected(true);
+		}
+		if (filme.isPromocao()) {
+			rbPromocaoSim.setSelected(true);
+		} else {
+			rbPromocaoNao.setSelected(true);
+		}
+		tfValorPromocao.setText(filme.getValorDaPromocao() + "");
+		if (filme.getGenero().equals("Ação")) {
+			cbAcao.setSelected(true);
+		}
+		if (filme.getGenero().equals("Ficção")) {
+			cbFiccao.setSelected(true);
+		}
+		if (filme.getGenero().equals("Terror")) {
+			cbTerror.setSelected(true);
+		}
+		if (filme.getGenero().equals("Comedia")) {
+			cbComedia.setSelected(true);
+		}
+		if (filme.getGenero().equals("Outro")) {
+			cbOutro.setSelected(true);
+		}
+		desbloqueioAlterar();
 	}
 }

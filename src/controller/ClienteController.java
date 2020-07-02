@@ -55,4 +55,16 @@ public class ClienteController {
 		}
 	}
 
+	public void alterar(Cliente cliente) {
+		ClienteDAO dao = new ClienteDAO(conexao);
+		try {
+			dao.alterar(cliente);
+			JOptionPane.showMessageDialog(null, "Cliente alterado com sucesso");
+			conexao.close();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "erro ao alterar o cliente");
+			e.printStackTrace();
+		}
+	}
+
 }

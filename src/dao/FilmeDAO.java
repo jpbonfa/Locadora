@@ -8,6 +8,7 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
+import model.Cliente;
 import model.Filme;
 
 public class FilmeDAO {
@@ -44,6 +45,7 @@ public class FilmeDAO {
 			filme.setDisponivel(cursor.getBoolean("disponivel"));
 			filme.setPromocao(cursor.getBoolean("promocao"));
 			filme.setValorDaPromocao(cursor.getDouble("valor_promocao"));
+			filme.setGenero(cursor.getString("genero"));
 			listaFilmes.add(filme);
 		}
 
@@ -57,4 +59,14 @@ public class FilmeDAO {
 		comando.execute();
 	}
 
+	public void alterar(Filme filme) throws SQLException {
+		String sql = "UPDATE filme SET valor=?, disponivel = ?, promocao=?, valor_promocao=? WHERE codigo=?;";
+		PreparedStatement comando = (PreparedStatement) bd.prepareStatement(sql);
+		comando.setDouble(1, filme.getValor());
+		comando.setBoolean(2, filme.isDisponivel());
+		comando.setBoolean(3, filme.isPromocao());
+		comando.setDouble(4, filme.getValorDaPromocao());
+		comando.setInt(5, filme.getCodigo());
+		comando.execute();
+	}
 }

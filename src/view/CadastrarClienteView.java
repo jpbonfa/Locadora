@@ -502,7 +502,7 @@ public class CadastrarClienteView {
 	}
 
 	public void limparCampos() {
-		tfNome.setText(null);
+		tfNome.setText("");
 		tfCpf.setText(null);
 		tfRg.setText(null);
 		tfRg.setText(null);

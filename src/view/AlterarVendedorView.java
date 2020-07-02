@@ -9,14 +9,17 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import controller.CidadeController;
+import controller.ClienteController;
 import controller.EstadoController;
 import controller.VendedorController;
 import model.Cidade;
+import model.Cliente;
 import model.Estado;
 import model.Vendedor;
 
@@ -46,6 +49,8 @@ public class AlterarVendedorView {
 	private JButton btCancelar;
 	private JButton btOk;
 	private ArrayList<Vendedor> listaVendedores = new ArrayList<Vendedor>();
+	// objeto vendedor
+	private Vendedor vendedores = new Vendedor();
 
 	private ButtonGroup grupoRadioSexo;
 
@@ -125,11 +130,33 @@ public class AlterarVendedorView {
 		tfSalario.setBounds(140, 230, 420, 27);
 
 		// Configuracões dos Botões
-		btAltera.setText("Alterar");
-		btCancelar.setText("Cancelar");
+
 		btOk.setText("OK");
-		btAltera.setBounds(150, 280, 130, 35);
 		btOk.setBounds(480, 20, 80, 25);
+		btOk.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (cbVendedor.getSelectedIndex() > 0) {
+					ok();
+					desbloqueioAlterar();
+				} else {
+					JOptionPane.showMessageDialog(null, "Selecione um vendedor valido");
+				}
+
+			}
+		});
+		btAltera.setText("Alterar");
+		btAltera.setBounds(150, 280, 130, 35);
+		btAltera.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				alterar();
+				limparCampos();
+				bloqueioInicial();
+			}
+		});
+		btCancelar.setText("Cancelar");
 		btCancelar.setBounds(290, 280, 130, 35);
 		btCancelar.addActionListener(new ActionListener() {
 
@@ -141,6 +168,7 @@ public class AlterarVendedorView {
 		carregarCidade();
 		carregarEstado();
 		carregarVendedor();
+		bloqueioInicial();
 		// Configurações do painel da janela
 		painelDaJanela.setLayout(null);
 		painelDaJanela.add(lbNome);
@@ -199,4 +227,60 @@ public class AlterarVendedorView {
 
 	}
 
+	public void bloqueioInicial() {
+
+		tfNome.setEditable(false);
+		tfArea.setEditable(false);
+		cbCidade.setEnabled(false);
+		cbEstado.setEnabled(false);
+		rbFeminino.setEnabled(false);
+		rbMasculino.setEnabled(false);
+		tfIdade.setEditable(false);
+		tfSalario.setEditable(false);
+
+	}
+
+	public void desbloqueioAlterar() {
+		tfArea.setEditable(true);
+		cbCidade.setEnabled(true);
+		cbEstado.setEnabled(true);
+		tfSalario.setEditable(true);
+
+	}
+
+	public void limparCampos() {
+		tfNome.setText(null);
+		tfArea.setText(null);
+		cbCidade.setSelectedIndex(0);
+		cbEstado.setSelectedIndex(0);
+		grupoRadioSexo.clearSelection();
+		tfIdade.setText(null);
+		tfSalario.setText(null);
+		cbVendedor.setSelectedIndex(0);
+
+	}
+
+	public void ok() {
+		vendedores = listaVendedores.get(cbVendedor.getSelectedIndex() - 1);
+		tfNome.setText(vendedores.getNome());
+		tfArea.setText(vendedores.getAreaVenda());
+		cbCidade.setSelectedItem(vendedores.getCidade());
+		cbEstado.setSelectedItem(vendedores.getEstado());
+		if (vendedores.getSexo() == 'M') {
+			rbMasculino.setSelected(true);
+		} else {
+			rbFeminino.setSelected(true);
+		}
+		tfIdade.setText(vendedores.getIdade() + "");
+		tfSalario.setText(vendedores.getSalario() + "");
+	}
+
+	public void alterar() {
+		vendedores.setAreaVenda(tfArea.getText());
+		vendedores.setCidade(cbCidade.getSelectedItem() + "");
+		vendedores.setEstado(cbEstado.getSelectedItem() + "");
+		vendedores.setSalario(Integer.parseInt(tfSalario.getText()));
+		new VendedorController().alterar(vendedores);
+
+	}
 }

@@ -31,6 +31,7 @@ public class VendedorDAO {
 		comando.setDouble(7, vendedor.getSalario());
 		comando.execute();
 	}
+
 	public List<Vendedor> buscarTodos() throws SQLException {
 		String sql = "SELECT * FROM vendedor ORDER BY nome";
 		PreparedStatement comando = (PreparedStatement) bd.prepareStatement(sql);
@@ -60,4 +61,14 @@ public class VendedorDAO {
 		comando.execute();
 	}
 
+	public void alterar(Vendedor vendedor) throws SQLException {
+		String sql = "UPDATE vendedor SET area_venda=?, cidade = ?, estado=?, salario=? WHERE codigo=?;";
+		PreparedStatement comando = (PreparedStatement) bd.prepareStatement(sql);
+		comando.setString(1, vendedor.getAreaVenda());
+		comando.setString(2, vendedor.getCidade());
+		comando.setString(3, vendedor.getEstado());
+		comando.setDouble(4, vendedor.getSalario());
+		comando.setInt(5, vendedor.getCodigo());
+		comando.execute();
+	}
 }

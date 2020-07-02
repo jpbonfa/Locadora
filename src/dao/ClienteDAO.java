@@ -88,4 +88,21 @@ public class ClienteDAO {
 		comando.execute();
 	}
 
+	public void alterar(Cliente cliente) throws SQLException {
+		String sql = "UPDATE cliente SET lougradouro=?, endereco = ?, numero=?, complemento=?, cidade=?, estado=?, bairro=?, cep=?, telefone=?, celular=?, email=? WHERE codigo=?;";
+		PreparedStatement comando = (PreparedStatement) bd.prepareStatement(sql);
+		comando.setString(1, cliente.getEndereco().getLougradouro());
+		comando.setString(2, cliente.getEndereco().getEndereco());
+		comando.setString(3, cliente.getEndereco().getNumero() + "");
+		comando.setString(4, cliente.getEndereco().getComplemento());
+		comando.setString(5, cliente.getEndereco().getCidade());
+		comando.setString(6, cliente.getEndereco().getEstado());
+		comando.setString(7, cliente.getEndereco().getBairro());
+		comando.setString(8, cliente.getEndereco().getCep());
+		comando.setString(9, cliente.getTelefone());
+		comando.setString(10, cliente.getCelular());
+		comando.setString(11, cliente.getEmail());
+		comando.setInt(12, cliente.getCodigo());
+		comando.execute();
+	}
 }
